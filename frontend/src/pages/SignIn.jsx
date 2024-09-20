@@ -22,7 +22,7 @@ console.log(formData)
    e.preventDefault()
 
 
-   if(!formData.username || !formData.email || !formData.password){
+   if(!formData.username ||  !formData.password){
     return seterorrMessage('please fill out all fields');
    }
 
@@ -30,13 +30,10 @@ console.log(formData)
    try {
     setloading(true)
     seterorrMessage(null)
-    const data = await axios.post("http://localhost:3000/api/auth/signup",formData).then(res=>console.log(res.data))
+    const data = await axios.post("http://localhost:3000/api/auth/signin",formData).then(res=>console.log(res.data))
     console.log(data)
-      // if(data. === false){
-      //   return seterorrMessage(data.message)
-      // }
       setloading(false)
-      navigate('/sign-in')
+      navigate('/')
 
    }catch(error){
     seterorrMessage(error.message)
@@ -70,16 +67,6 @@ console.log(formData)
               />
             </div>
             <div>
-              <Label value="Your email" />
-              <TextInput
-                id="email"
-                name="email"
-                placeholder="name@company.com"
-                type="email"
-                onChange={handleChange}
-              />
-            </div>
-            <div>
               <Label value="Your password" />
               <TextInput
                 id="password"
@@ -100,7 +87,7 @@ console.log(formData)
             </Button>
           </from>
           <div className="flex gap-2 text-sm mt-5">
-            <span>Do not Have an acoount?</span>
+            <span>Dont Have an acoount?</span>
             <Link to="/sign-up" className="text-blue-500">
               Sign Up
             </Link>
