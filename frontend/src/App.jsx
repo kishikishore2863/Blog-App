@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Dashboard from "./pages/Dashboard";
 import Header from "./component/Header";
+import  FooterCom  from "./component/Footer";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
+        <FooterCom/>
       </BrowserRouter>
     </>
   );
