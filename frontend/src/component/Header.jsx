@@ -1,11 +1,18 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Navbar, TextInput, Button } from "flowbite-react";
+import { Navbar, TextInput, Button, Dropdown, Avatar } from "flowbite-react";
 import { Link , useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
-import {FaMoon} from "react-icons/fa"
+import {FaMoon,FaSun} from "react-icons/fa"
+import { useSelector,useDispatch } from "react-redux";
+import { toggleTheme } from "../redux/theme/themeSlice";
+
 
 const Header = () => {
+    const dispatch = useDispatch()
+    const {theme} =useSelector(state=>state.theme)
     const path =useLocation().pathname;
+    const {currentUser}=useSelector(state=>state.user)
+ 
   return (
     <Navbar className="border-b-2">
       <Link
@@ -24,18 +31,45 @@ const Header = () => {
           placeholder="Search..."
           rightIcon={AiOutlineSearch}
           className="hidden lg:inline"
+       
         />
       </form>
       <Button className="w-12 h-10 lg:hidden" color='gray' pill>
         <AiOutlineSearch />
       </Button>
       <div className='flex gap-2 md:order-2'>
-      <Button className="w-12 h-10 hidden sm:inline" color='gray' pill>
-        <FaMoon />
+      <Button className="w-12 h-10 hidden sm:inline" color='gray' pill onClick={()=>dispatch(toggleTheme())}>
+       
+        {theme==='light'?( <FaMoon />):(<FaSun/>)}
       </Button>
-      <Link to='/sign-in'>
-        <Button gradientDuoTone='purpleToBlue' outline>Sign In</Button>
-      </Link>
+      {currentUser ? (
+        <Dropdown
+        arrowIcon={false}
+        inline
+        label={<Avatar
+          alt="user"
+          img={currentUser.profilePicture}
+          rounded
+          />}
+        >
+          <Dropdown.Header>
+            <span className="block text-sm">@{currentUser.username}</span>
+            <span className="block text-sm font-medium truncate">{currentUser.email}</span>
+          </Dropdown.Header>
+          <Link to={'/dashboard?tab=profile'}>
+          <Dropdown.Item>Profile</Dropdown.Item>  
+          </Link>
+          <Dropdown.Divider />
+          <Dropdown.Item>Sign out</Dropdown.Item>
+
+        </Dropdown>
+      ):(
+         <Link to='/sign-in'>
+         <Button gradientDuoTone='purpleToBlue' outline>Sign In</Button>
+       </Link>
+     
+      )}
+     
       <Navbar.Toggle/>
       </div>
       <Navbar.Collapse>

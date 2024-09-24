@@ -6,6 +6,7 @@ import axios from "axios"
 import { useDispatch } from "react-redux";
 import { signInstart,signInSuccess,signInFailure } from "../redux/user/userSlice";
 import { useSelector } from "react-redux";
+import OAuth from "../component/OAuth";
 
 const SignIn = () => {
   const navigate =useNavigate()
@@ -31,17 +32,38 @@ console.log(formData)
    }
 
 
-   try {
-    dispatch(signInstart())
-    const data = await axios.post("http://localhost:3000/api/auth/signin",formData).then(res=>console.log(res.data))
-    console.log(data)
-      navigate('/')
-    dispatch(signInSuccess(data));
-   }catch(error){
-   dispatch(signInFailure(error.message))
-   }
+  //  try {
+  //   dispatch(signInstart())
+  //   const data = await axios.post("http://localhost:3000/api/auth/signin",formData,{
+  //     headers:{
+  //       'Content-Type':'application/json'
+  //     }
+  //   });
+  //   console.log(data.data);
+  //   dispatch(signInSuccess(data.data));
+  //   navigate('/');
    
+  //  }catch(error){
+  //   dispatch(signInFailure(error.message))
+
+  //  }
+   
+  try {
+    dispatch(signInstart());
+    const response = await axios.post("http://localhost:3000/api/auth/signin", formData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data =response.data
+    console.log(response.data);
+    dispatch(signInSuccess(data));
+    navigate('/');
+  } catch (error) {
+    dispatch(signInFailure(error.message));
   }
+};
+  
 
   return (
     <div className="min-h-screen mt-20 ">
@@ -86,6 +108,7 @@ console.log(formData)
                 ):("Sign In")
               }
             </Button>
+            <OAuth/>
           </from>
           <div className="flex gap-2 text-sm mt-5">
             <span>Dont Have an acoount?</span>
