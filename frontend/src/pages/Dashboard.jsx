@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect,useState } from "react"
-import {useLocation} from 'react-router-dom'
+import {useLocation} from "react-router-dom"
 import DashSidebar from "../component/DashSidebar"
 import DashProfile from "../component/DashProfile"
 
@@ -9,7 +9,7 @@ const Dashboard = () => {
   const [tab,setTab]=useState('')
 
 useEffect(()=>{
-  const location =useLocation();
+  
   const urlParams =new URLSearchParams(location.search)
   const tabFromUrl=urlParams.get('tab')
   if(tabFromUrl){
@@ -17,18 +17,19 @@ useEffect(()=>{
   }
 },[location.search])
 
-  return (
+  return (<>
+
     
-<div>
-  <div className="">
+<div className="min-h-screen flex flex-col md:flex-row">
+  <div className='md:w-56'>
     {/* slidebar */}
-    <DashSidebar/>
+    {tab === 'profile' && <DashSidebar/>}
   </div>
-  <div>
     {/* profile */}
     {tab === 'profile' && <DashProfile/>}
-  </div>
+  
 </div>
+</>
   )
 }
 
