@@ -4,7 +4,8 @@ const cors = require("cors")
 const mongoose = require('mongoose');
 const dotenv= require('dotenv')
 const UserRoutes = require('./routes/user.route')
-const authRoutes =require('./routes/auth.route')
+const authRoutes =require('./routes/auth.route');
+const cookieParser = require("cookie-parser");
 
 dotenv.config()
 
@@ -15,6 +16,7 @@ mongoose.connect(process.env.MONGO_DB).then(
 const app =express()
 app.use(express.json());
 app.use(cors())
+app.use(cookieParser())
 
 
 
